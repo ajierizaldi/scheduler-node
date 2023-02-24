@@ -6,7 +6,7 @@ const port = process.env.PORT || 3000
 
 const model = require('../models')
 
-const useScheduler = schedule.scheduleJob('*/1 * * * *', async () => {
+const useScheduler = schedule.scheduleJob('*/5 * * * *', async () => {
     console.log('running scheduler')
 
     const data = await model.latihanscheduler.create({
