@@ -5,20 +5,12 @@ const scheduler = schedule.scheduleJob('*/5 * * * *', async () => {
     // 
     const timeNow = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
-    // create id and timenow to table latihan_scheduler
-    const insertScheduler = await dbConfig.getConnection()
-    await insertScheduler.query(`INSERT INTO latihan_scheduler (id, time_now) VALUES (DEFAULT, '${timeNow}')`);
-    insertScheduler.release();
+    // save the current time to the database table latihan_scheduler
+    const connection = await dbConfig.getConnection();
+    await connection.query(`INSERT INTO latihan_scheduler (time) VALUES ('${timeNow}')`);
+    await connection.release();
 
-    console.log(`Scheduler running at ${timeNow}`);
-
-    // get data from table latihan_scheduler
-    const getScheduler = await dbConfig.getConnection()
-    const [rows, fields] = await getScheduler.query(`SELECT * FROM latihan_scheduler`);
-    getScheduler.release();
-
-    console.log(rows);
-
+    console.log(`Time now: ${timeNow}`);
 });
 
 module.exports = scheduler
